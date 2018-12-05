@@ -1,0 +1,42 @@
+package com
+
+import java.util.ArrayList
+import com.may.model.Product
+import com.may.model.State
+
+rule "Rule 1"
+    salience 5
+    when
+        productObject: Product(type=="gold", $states : states)
+        $list : ArrayList( ) from collect ( State( ) from $states )
+    then
+        System.out.println("Rule 1 ");
+end
+
+rule "Rule 2"
+    salience 4
+    when
+        product : Product(type=="gold")
+    then
+        product.setDiscount(100);
+        System.out.println("Rule 2");
+end
+
+
+rule "Rule 3"
+    salience 0
+    activation-group "gold"
+    when
+        productObject: Product( type == "gold" )
+    then
+        System.out.println("Rule 3 " + productObject.getDiscount());
+end
+
+rule "Rule 4"
+    salience 0
+    activation-group "gold"
+    when
+        productObject: Product( type == "gold" )
+    then
+        System.out.println("Rule 4 " + productObject.getDiscount());
+end
